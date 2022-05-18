@@ -11,18 +11,22 @@ public class SensorScript : MonoBehaviour
     {
         Distance = max_distance;
     }
+
     private void FixedUpdate()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.forward * max_distance);
+        RaycastHit2D hit = Physics2D.Raycast(Position(), Forward() * max_distance);
         if (hit)
         {
-            Debug.Log(hit.transform.gameObject.tag);
             if (hit.transform.gameObject.tag != "wall")
                 return;
-            Debug.Log("Hit the wall!");
             Distance = Mathf.Min(hit.distance, max_distance);
-            if (Distance < max_distance)
-                Debug.Log("Object close");
+            //if (Distance < max_distance)
+                //Debug.Log("Object close");
         }
     }
+
+    private Vector2 Position() => new Vector2(transform.position.x, transform.position.y);
+
+    // Green arrow in editor
+    private Vector2 Forward() => new Vector2(transform.up.x, transform.up.y);
 }

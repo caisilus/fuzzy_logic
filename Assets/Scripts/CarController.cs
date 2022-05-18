@@ -44,8 +44,8 @@ public class CarController : MonoBehaviour
 
     void FixedUpdate()
     {
-        //Debug.Log(rightSensor.Distance);
-        //Debug.Log(leftSensor.Distance);
+        Debug.Log($"From right: {rightSensor.Distance}");
+        Debug.Log($"From left: {leftSensor.Distance}");
         Rotate();
         Move();
     }
