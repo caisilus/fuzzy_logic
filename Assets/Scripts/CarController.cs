@@ -18,7 +18,8 @@ public class CarController : MonoBehaviour
     public Rigidbody2D rb;
     public GameObject gameController;
 
-    
+    public bool rightSensor;
+    public bool leftSensor;
 
     private Vector2 movedirection;
 
@@ -66,6 +67,15 @@ public class CarController : MonoBehaviour
     public Vector2 RotateVector2(Vector2 v, float degrees)
     {
         return Quaternion.Euler(0, 0, degrees) * v;
+    }
+
+    private void checkSensors(){
+        foreach(GameObject child in transform)
+        {
+            if (child.GetComponent<SensorScript>().collided){
+                Debug.Log(child.transform.name + " collided");
+            }
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
