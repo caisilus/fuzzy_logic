@@ -4,22 +4,25 @@ using UnityEngine;
 
 public class SensorScript : MonoBehaviour
 {
-    public bool collided = false;
+    [SerializeField] private float max_distance = 5f;
+    public float Distance { get; private set; }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void Start()
     {
-        print("S");
-        if (other.gameObject.tag == "wall"){
-            collided = true;
-        }
+        Distance = max_distance;
     }
-
-    private void OnCollisionExit2D(Collision2D other)
+    private void FixedUpdate()
     {
-        print("S");
-        if (other.gameObject.tag == "wall"){
-            collided = false;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.forward * max_distance);
+        if (hit)
+        {
+            Debug.Log(hit.transform.gameObject.tag);
+            if (hit.transform.gameObject.tag != "wall")
+                return;
+            Debug.Log("Hit the wall!");
+            Distance = Mathf.Min(hit.distance, max_distance);
+            if (Distance < max_distance)
+                Debug.Log("Object close");
         }
-        
     }
 }
