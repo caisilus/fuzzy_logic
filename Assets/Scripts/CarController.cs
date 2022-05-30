@@ -6,20 +6,26 @@ using UnityEngine;
 public class CarController : MonoBehaviour
 {
     [SerializeField] bool handControl;
+
+    // Sensors
     [SerializeField] SensorScript rightSensor;
     [SerializeField] SensorScript leftSensor;
     [SerializeField] SensorScript backSensor;
+
+    // For ending the game
     [SerializeField] GameController gameController;
 
     public float maxSpeed;
     public float maxAngle;
 
+    // Car parameters to determine by AI
     private float _moveSpeed;
     private float _dmoveSpeed;
  
     private float _angle;
     private float _dangle;
 
+    // For car movement
     private Rigidbody2D _rigidbody;
 
     private Vector2 _movedirection;
@@ -35,6 +41,7 @@ public class CarController : MonoBehaviour
         _dangle = 0.1f;
     }
 
+    // User input
     void Update()
     {
         if (handControl)
@@ -43,6 +50,7 @@ public class CarController : MonoBehaviour
         }
     }
 
+    // Movement
     void FixedUpdate()
     {
        // Debug.Log($"From right: {rightSensor.Distance}");
@@ -68,7 +76,6 @@ public class CarController : MonoBehaviour
      
     }
 
-    // Processes user input, used only when handControll = true
     private void ProcessInputs() {
         float speed = Input.GetAxisRaw("Vertical");
         float rotation = -1 * Input.GetAxisRaw("Horizontal");
