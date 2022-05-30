@@ -32,7 +32,9 @@ public class FuzzyAI
 
         for (int i = 0; i < output.Length; i++)
         {
-            output[i] = resultSets[i].GetFirstMax();
+            if (resultSets.ContainsKey(i)){
+                output[i] = resultSets[i].GetFirstMax();
+            }
         }
 
         return output;

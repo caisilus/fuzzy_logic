@@ -11,7 +11,6 @@ public class FuzzyRule
     public FuzzySet consequence;
     public int[] indexes;
     public string chain = "AND";
-    //public int inputindex = 0;
     public int outputindex;
 
     public FuzzyRule(FuzzySet[] c, FuzzySet cons, int o, int[] i, string ch = "AND")
@@ -45,9 +44,6 @@ public class FuzzyRule
                 res = Mathf.Max(res, prob);
             }
 
-            //if (res == prob){
-                //this.inputindex = i;
-            //}
         }
         return res; 
     }

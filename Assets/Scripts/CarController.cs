@@ -30,6 +30,9 @@ public class CarController : MonoBehaviour
 
     private Vector2 _movedirection;
 
+
+    private FuzzyAI ai;
+
     // Unity methods
     void Start()
     {
@@ -39,6 +42,10 @@ public class CarController : MonoBehaviour
         _angle = 1;
         _dmoveSpeed = 0.2f;
         _dangle = 0.1f;
+
+
+        AiHub aihub = new AiHub();
+        ai = aihub.getAI();
     }
 
     // User input
@@ -48,13 +55,35 @@ public class CarController : MonoBehaviour
         {
             ProcessInputs();
         }
+        else{
+            float[] input = GetDetectorsData();
+            float[] outut = ai.step(input);
+
+            Debug.Log($"Output V {outut[0]}; Output A {outut[1]}");
+            float rotation = outut[1];
+            if (maxAngle > Math.Abs(_angle + rotation * _dangle))
+            {
+                _angle += rotation * _dangle;
+            }
+        }
+
+    }
+
+    private float[] GetDetectorsData(){
+        float speed = _moveSpeed / maxSpeed;
+        float angle = _angle / maxAngle;
+        float rsData = rightSensor.Distance / 2;
+        float lsData = leftSensor.Distance / 2;
+        float bsData = backSensor.Distance / 2;
+        //TODO добавить растояние до цели
+        float[] res = new float[]{speed, angle, rsData, lsData, bsData};
+        Debug.Log($"Velocity {speed}; Aangle: {angle}; RSensor: {rsData}; LSensor: {lsData}; BSensor: {bsData}");
+        return res;
     }
 
     // Movement
     void FixedUpdate()
     {
-       // Debug.Log($"From right: {rightSensor.Distance}");
-       // Debug.Log($"From left: {leftSensor.Distance}");
         Rotate();
         Move();
     }

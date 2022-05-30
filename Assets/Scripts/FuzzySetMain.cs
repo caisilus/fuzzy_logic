@@ -40,7 +40,17 @@ public class FuzzySet
     }
 
     private float GetValue(float key){
-        return this.data[key];
+        float minDelta = float.MaxValue;
+        float trueKey = 0f;
+        foreach(float k in this.data.Keys)
+        {
+            float delta = Mathf.Abs(k - key);
+            if (delta < minDelta){
+                minDelta = delta;
+                trueKey = k;
+            }
+        }
+        return this.data[trueKey];
     }
 
     private void SetValue(float key, float newvalue)
@@ -52,12 +62,12 @@ public class FuzzySet
 
     public FuzzySet minimize(float new_prob)
     {
-        Dictionary<float, float> data = new Dictionary<float, float>();
+        Dictionary<float, float> new_data = new Dictionary<float, float>();
         foreach(KeyValuePair<float, float>  entry in this.data)
         {
-            data[entry.Key] = Mathf.Min(this.data[entry.Key], new_prob);
+             new_data[entry.Key] = Mathf.Min(this.data[entry.Key], new_prob);
         }
-        FuzzySet res = new FuzzySet(data);
+        FuzzySet res = new FuzzySet(new_data);
         return res;
     }
 
