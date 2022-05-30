@@ -8,6 +8,7 @@ public class CarController : MonoBehaviour
     [SerializeField] bool handControl;
     [SerializeField] SensorScript rightSensor;
     [SerializeField] SensorScript leftSensor;
+    [SerializeField] SensorScript backSensor;
     [SerializeField] GameController gameController;
 
     public float maxSpeed;
