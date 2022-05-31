@@ -7,6 +7,28 @@ using UnityEngine;
 // Output [v, a]
 public class AiHub
 {
+    public static float f1(int x)
+    {
+        if (x < 5){
+            return 1f;
+        }
+        else if (x < 7){
+            return 0.7f - 0.6f  * (x / 10f);
+        }else{
+            return 0f;
+        }
+    }
+    public static float f2(int x)
+    {
+        if (x < -5){
+            return 1f;
+        }
+        else if (x < 0){
+            return  -2 * (x / 10f);
+        }else{
+            return 0f;
+        }
+    }
     private FuzzyAI currentAI;
     public AiHub()
     {
@@ -36,8 +58,10 @@ public class AiHub
             }
         }
 
-        FuzzySet closeLeft = new FuzzySet(d1);
-        FuzzySet turnRightFast = new FuzzySet(d2);
+        F fun1 = f1;
+        F fun2 = f2;
+        FuzzySet closeLeft = new FuzzySet(0, 10, 10f, fun1);
+        FuzzySet turnRightFast = new FuzzySet(-10, 10, 10f, fun2);
 
         Debug.Log(turnRightFast);
 

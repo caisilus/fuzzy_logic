@@ -3,9 +3,11 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+public delegate float F(int x);
 
 public class FuzzySet
 {
+    
     public static FuzzySet max(FuzzySet f1, FuzzySet f2){
         Dictionary<float, float> data = new Dictionary<float, float>();
         foreach(KeyValuePair<float, float>  entry in f1.data)
@@ -31,6 +33,14 @@ public class FuzzySet
     public FuzzySet(Dictionary<float, float> d)
     {
         data = d;
+    }
+
+    public FuzzySet(int start, int end, float numPoints, F f)
+    {
+        for (int i = start; i <= end; i++)
+        {
+            data[i / numPoints] =  f(i);
+        }
     }
 
     public float this[float key]
