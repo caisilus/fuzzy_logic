@@ -726,7 +726,7 @@ GameObject:
   - component: {fileID: 397362921}
   - component: {fileID: 397362920}
   - component: {fileID: 397362919}
-  - component: {fileID: 397362922}
+  - component: {fileID: 397362923}
   m_Layer: 5
   m_Name: Pause Button
   m_TagString: Untagged
@@ -799,9 +799,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 397362922}
-        m_TargetAssemblyTypeName: PauseButtonScript, Assembly-CSharp
-        m_MethodName: Pause
+      - m_Target: {fileID: 397362923}
+        m_TargetAssemblyTypeName: ButtonsScript, Assembly-CSharp
+        m_MethodName: PauseTime
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -849,7 +849,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 397362917}
   m_CullTransparentMesh: 1
---- !u!114 &397362922
+--- !u!114 &397362923
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -858,7 +858,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 397362917}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68bb3fec16737a34ca223e0b469163f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 0472020e4fa72944384e87c38f6bb17f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &433195301
@@ -2714,7 +2714,6 @@ GameObject:
   - component: {fileID: 1287195567}
   - component: {fileID: 1287195566}
   - component: {fileID: 1287195565}
-  - component: {fileID: 1287195568}
   m_Layer: 5
   m_Name: Start Button
   m_TagString: Untagged
@@ -2787,8 +2786,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1287195568}
-        m_TargetAssemblyTypeName: StartButtonScript, Assembly-CSharp
+      - m_Target: {fileID: 397362923}
+        m_TargetAssemblyTypeName: ButtonsScript, Assembly-CSharp
         m_MethodName: StartTime
         m_Mode: 1
         m_Arguments:
@@ -2837,18 +2836,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1287195563}
   m_CullTransparentMesh: 1
---- !u!114 &1287195568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1287195563}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 073e949395f71da4eb89b7ab86ef2df9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1296514299
 GameObject:
   m_ObjectHideFlags: 0
@@ -4603,7 +4590,6 @@ GameObject:
   - component: {fileID: 2099995194}
   - component: {fileID: 2099995193}
   - component: {fileID: 2099995192}
-  - component: {fileID: 2099995195}
   m_Layer: 5
   m_Name: Restart Button
   m_TagString: Untagged
@@ -4676,9 +4662,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2099995195}
-        m_TargetAssemblyTypeName: RestartButtonScript, Assembly-CSharp
-        m_MethodName: Restart
+      - m_Target: {fileID: 397362923}
+        m_TargetAssemblyTypeName: ButtonsScript, Assembly-CSharp
+        m_MethodName: RestartTime
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4726,18 +4712,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2099995190}
   m_CullTransparentMesh: 1
---- !u!114 &2099995195
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2099995190}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6b7ffbfc12fe7044b0b4fba160c91e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &2648420157806228178
 BoxCollider2D:
   m_ObjectHideFlags: 0
