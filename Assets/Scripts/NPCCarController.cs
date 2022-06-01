@@ -21,8 +21,19 @@ public class NPCCarController : MonoBehaviour
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        if (leftMoveDir) 
-        { 
+        //setMoveDir(leftMoveDir);
+        _moveSpeed = UnityEngine.Random.Range(2, maxSpeed);
+        if (superMegaSpeed)
+        {
+            _moveSpeed = 10;
+        }
+        Debug.Log("AI car moveSpeed = " + _moveSpeed);
+    }
+
+    public void setMoveDir(bool isLeft)
+    {
+        if (isLeft)
+        {
             _movedirection = new Vector2(-1, 0);
             transform.rotation = Quaternion.Euler(0, 0, 90);
         }
@@ -31,12 +42,6 @@ public class NPCCarController : MonoBehaviour
             _movedirection = new Vector2(1, 0);
             transform.rotation = Quaternion.Euler(0, 0, 270);
         }
-        _moveSpeed = UnityEngine.Random.Range(2, maxSpeed);
-        if (superMegaSpeed)
-        {
-            _moveSpeed = 10;
-        }
-        Debug.Log("AI car moveSpeed = " + _moveSpeed);
     }
 
     void OnCollisionEnter2D(Collision2D other)

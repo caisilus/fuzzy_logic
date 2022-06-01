@@ -42,6 +42,7 @@ public class ClickSpawner : MonoBehaviour
             {
                 GameObject go = Instantiate(prefabs[0], p, Quaternion.identity);
                 go.name += " _instantiated";
+                go.GetComponent<NPCCarController>().setMoveDir(true);
             }
         }
         else if (Input.GetMouseButtonDown(1))
@@ -49,8 +50,9 @@ public class ClickSpawner : MonoBehaviour
             Vector3 p = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, c.transform.position.z * -1.0f));
             if (!DetectObject(Input.mousePosition))
             {
-                GameObject go = Instantiate(prefabs[1], p, Quaternion.identity);
+                GameObject go = Instantiate(prefabs[0], p, Quaternion.identity);
                 go.name += " _instantiated";
+                go.GetComponent<NPCCarController>().setMoveDir(false);
             }
         }
     }
