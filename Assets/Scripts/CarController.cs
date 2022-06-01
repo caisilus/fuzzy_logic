@@ -64,7 +64,7 @@ public class CarController : MonoBehaviour
             ProcessInputs();
             GetDetectorsData();
         }
-        else{
+        else {
             float[] input = GetDetectorsData();
             float[] outut = ai.step(input);
 
@@ -73,8 +73,15 @@ public class CarController : MonoBehaviour
             float rotation = outut[1];
             float new_dv = outut[0];
             _dmoveSpeed = new_dv * maxdv;
-            _moveSpeed = Math.Min(_moveSpeed + _dmoveSpeed, maxSpeed);
-            _angle = Math.Min(rotation * maxAngle, maxAngle);
+            if (Math.Abs(_moveSpeed + _dmoveSpeed) <= maxSpeed)
+            {
+                _moveSpeed = _moveSpeed + _dmoveSpeed;
+            }
+            else
+            {
+                _moveSpeed = Math.Sign(_moveSpeed) * maxSpeed;
+            }
+            _angle = rotation * maxAngle;
         }
 
     }
