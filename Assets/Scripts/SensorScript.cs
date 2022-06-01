@@ -22,6 +22,9 @@ public class SensorScript : MonoBehaviour
             Distance = Mathf.Min(hit.distance, max_distance);
             //if (Distance < max_distance)
                 //Debug.Log("Object close");
+        } else
+        {
+            Distance = max_distance;
         }
     }
 
