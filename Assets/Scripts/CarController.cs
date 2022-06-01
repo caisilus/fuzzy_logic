@@ -14,7 +14,7 @@ public class CarController : MonoBehaviour
     private FinishSensor _finishSensor;
 
     // For ending the game
-    [SerializeField] GameController gameController;
+    [SerializeField] ButtonsScript gameController;
 
     // User controlled parameters
     [SerializeField] private float maxSpeed;
@@ -125,8 +125,13 @@ public class CarController : MonoBehaviour
             }
         }
         Debug.Log("Collision");
-        gameController.GetComponent<GameController>().RestartLevel();
+        gameController.RestartTime();
 
+    }
+
+    public bool IsTurnedBack()
+    {
+        return _moveSpeed < 0;
     }
 
     // User defined properties
