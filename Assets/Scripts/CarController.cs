@@ -23,7 +23,6 @@ public class CarController : MonoBehaviour
     private float _dmoveSpeed;
  
     private float _angle;
-    private float _dangle;
 
     // For car movement
     private Rigidbody2D _rigidbody;
@@ -41,14 +40,19 @@ public class CarController : MonoBehaviour
         _moveSpeed = 2;
         _angle = 0f;
         _dmoveSpeed = 0.2f;
-        _dangle = 0.07f;
-
 
         AiHub aihub = new AiHub();
         ai = aihub.getAI();
     }
 
-    // User input
+    // Movement
+    void FixedUpdate()
+    {
+        Rotate();
+        Move();
+    }
+
+    // Input
     void Update()
     {
         if (handControl)
@@ -61,10 +65,8 @@ public class CarController : MonoBehaviour
 
             Debug.Log($"Output V {outut[0]}; Output A {outut[1]}");
             float rotation = outut[1];
-            if (maxAngle > Math.Abs(_angle + rotation * _dangle))
-            {
-                _angle = rotation * maxAngle;
-            }
+            
+            _angle = Math.Min(rotation * maxAngle, maxAngle);
         }
 
     }
@@ -81,40 +83,14 @@ public class CarController : MonoBehaviour
         return res;
     }
 
-    // Movement
-    void FixedUpdate()
-    {
-        Rotate();
-        Move();
-    }
-
-    void OnCollisionEnter2D(Collision2D other)
-    {
-        GameObject otherObject = other.gameObject;
-        if (otherObject.tag == "optional wall")
-        {
-            bool ce = otherObject.GetComponent<HiderScript>().collisions_enabled;
-            if (!ce)
-            {
-                Physics2D.IgnoreCollision(otherObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
-                return;
-            }
-        }
-        Debug.Log("Collision");
-        gameController.GetComponent<GameController>().RestartLevel();
-     
-    }
-
     private void ProcessInputs() {
-        float speed = Input.GetAxisRaw("Vertical");
-        float rotation = -1 * Input.GetAxisRaw("Horizontal");
+        float speed = Input.GetAxis("Vertical");
+        float rotation = -1 * Input.GetAxis("Horizontal");
 
         if (maxSpeed > Math.Abs(_moveSpeed + speed * _dmoveSpeed)){
             _moveSpeed += speed * _dmoveSpeed;
         }
-        if (maxAngle > Math.Abs(_angle + rotation * _dangle)){
-            _angle += rotation * _dangle;
-        }
+        _angle = Math.Min(maxAngle, rotation * maxAngle);
     }
 
     private void Move() {
@@ -130,5 +106,23 @@ public class CarController : MonoBehaviour
     {
         _movedirection = RotateVector2(_movedirection, _angle);
         _rigidbody.rotation += _angle;
+    }
+
+    // Collisions
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        GameObject otherObject = other.gameObject;
+        if (otherObject.tag == "optional wall")
+        {
+            bool ce = otherObject.GetComponent<HiderScript>().collisions_enabled;
+            if (!ce)
+            {
+                Physics2D.IgnoreCollision(otherObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+                return;
+            }
+        }
+        Debug.Log("Collision");
+        gameController.GetComponent<GameController>().RestartLevel();
+
     }
 }
