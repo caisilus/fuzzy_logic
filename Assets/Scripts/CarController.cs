@@ -37,11 +37,11 @@ public class CarController : MonoBehaviour
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        _movedirection = new Vector2(0, 1);
+        _movedirection = new Vector2(transform.up.x, transform.up.y);
         _moveSpeed = 2;
-        _angle = 1;
+        _angle = 0f;
         _dmoveSpeed = 0.2f;
-        _dangle = 0.1f;
+        _dangle = 0.07f;
 
 
         AiHub aihub = new AiHub();
@@ -63,7 +63,7 @@ public class CarController : MonoBehaviour
             float rotation = outut[1];
             if (maxAngle > Math.Abs(_angle + rotation * _dangle))
             {
-                _angle += rotation * _dangle;
+                _angle = rotation * maxAngle;
             }
         }
 

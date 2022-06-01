@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using System;
-public delegate float F(int x);
+public delegate float F(float x);
 
 public class FuzzySet
 {
@@ -37,9 +37,11 @@ public class FuzzySet
 
     public FuzzySet(int start, int end, float numPoints, F f)
     {
-        for (int i = start; i <= end; i++)
+        float delta = (end - start) / numPoints;
+        for (int i = 0; i <= numPoints; i++)
         {
-            data[i / numPoints] =  f(i);
+            float a = start + delta * i;
+            data[a] = f(a);
         }
     }
 

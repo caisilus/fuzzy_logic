@@ -7,26 +7,38 @@ using UnityEngine;
 // Output [v, a]
 public class AiHub
 {
-    public static float f1(int x)
+    public static float f1(float x)
     {
-        if (x < 5){
+        if (x < 0.5f){
             return 1f;
         }
-        else if (x < 7){
-            return 0.7f - 0.6f  * (x / 10f);
+        else if (x < 0.7f){
+            return 0.7f - 0.6f  * x;
         }else{
             return 0f;
         }
     }
-    public static float f2(int x)
+    public static float f2(float x)
     {
-        if (x < -5){
+        if (x < -0.5f){
             return 1f;
         }
-        else if (x < 0){
-            return  -2 * (x / 10f);
+        else if (x < 0f){
+            return  -2 * x;
         }else{
             return 0f;
+        }
+    }
+
+    public static float f3(float x)
+    {
+        if (x < 0f){
+            return 0f;
+        }
+        else if (x < 0.5f){
+            return  2 * x;
+        }else{
+            return 1f;
         }
     }
     private FuzzyAI currentAI;
@@ -60,13 +72,18 @@ public class AiHub
 
         F fun1 = f1;
         F fun2 = f2;
-        FuzzySet closeLeft = new FuzzySet(0, 10, 10f, fun1);
-        FuzzySet turnRightFast = new FuzzySet(-10, 10, 10f, fun2);
+        F fun3 = f3;
+        FuzzySet closeLeft = new FuzzySet(0, 1, 10.0f, fun1);
+        FuzzySet closeRight = new FuzzySet(0, 1, 10.0f, fun1);
+        FuzzySet turnRightFast = new FuzzySet(-1, 1, 20.0f, fun2);
+        FuzzySet turnLeftFast = new FuzzySet(-1, 1, 20.0f, fun3);
 
         Debug.Log(turnRightFast);
+        Debug.Log(closeLeft);
 
         FuzzyRule rule1 = new FuzzyRule(new FuzzySet[]{closeLeft}, turnRightFast, 1, new int[]{3});
-        FuzzyAI ai0 = new FuzzyAI(new FuzzyRule[]{rule1}, 2);
+        FuzzyRule rule2 = new FuzzyRule(new FuzzySet[]{closeRight}, turnLeftFast, 1, new int[]{2});
+        FuzzyAI ai0 = new FuzzyAI(new FuzzyRule[]{rule1, rule2}, 2);
         currentAI = ai0;
     }
 
