@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d2466667d433864ab1c21ecb851191a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  max_distance: 2
+  maxDistance: 1
 --- !u!1 &5567302704475389070
 GameObject:
   m_ObjectHideFlags: 0
@@ -89,7 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d2466667d433864ab1c21ecb851191a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  max_distance: 2
+  maxDistance: 1
 --- !u!1 &5567302704855561884
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d2466667d433864ab1c21ecb851191a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  max_distance: 2
+  maxDistance: 1
 --- !u!1 &5567302705598481428
 GameObject:
   m_ObjectHideFlags: 0
@@ -149,6 +149,7 @@ GameObject:
   - component: {fileID: 5567302705598481429}
   - component: {fileID: 7602670226214293738}
   - component: {fileID: 7602670226214293739}
+  - component: {fileID: 1905099879265137826}
   m_Layer: 0
   m_Name: Car
   m_TagString: Player
@@ -305,3 +306,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   finish: {fileID: 0}
+--- !u!114 &1905099879265137826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5567302705598481428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c418e5682cbd014c90aeac36d6df2e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  left: {fileID: 5567302704362780654}
+  right: {fileID: 5567302704475389056}
+  back: {fileID: 5567302704855561885}
+  finish: {fileID: 7602670226214293739}

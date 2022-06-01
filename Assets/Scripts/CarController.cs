@@ -66,7 +66,8 @@ public class CarController : MonoBehaviour
             float[] input = GetDetectorsData();
             float[] outut = ai.step(input);
 
-            Debug.Log($"Output V {outut[0]}; Output A {outut[1]}");
+            if (Time.timeScale > 0)
+                Debug.Log($"Output V {outut[0]}; Output A {outut[1]}");
             float rotation = outut[1];
             
             _angle = Math.Min(rotation * maxAngle, maxAngle);
@@ -77,12 +78,13 @@ public class CarController : MonoBehaviour
     private float[] GetDetectorsData(){
         float speed = _moveSpeed / maxSpeed;
         float angle = _angle / maxAngle;
-        float rsData = rightSensor.Distance / 2;
-        float lsData = leftSensor.Distance / 2;
-        float bsData = backSensor.Distance / 2;
+        float rsData = rightSensor.Distance / rightSensor.MaxDistance;
+        float lsData = leftSensor.Distance / rightSensor.MaxDistance;
+        float bsData = backSensor.Distance / rightSensor.MaxDistance;
         //TODO добавить растояние до цели
         float[] res = new float[]{speed, angle, rsData, lsData, bsData};
-        Debug.Log($"Velocity {speed}; Aangle: {angle}; RSensor: {rsData}; LSensor: {lsData}; BSensor: {bsData}");
+        if (Time.timeScale > 0f)
+            Debug.Log($"Velocity {speed}; Aangle: {angle}; RSensor: {rsData}; LSensor: {lsData}; BSensor: {bsData}");
         return res;
     }
 

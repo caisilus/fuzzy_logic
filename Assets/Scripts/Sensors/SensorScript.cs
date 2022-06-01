@@ -4,27 +4,35 @@ using UnityEngine;
 
 public class SensorScript : MonoBehaviour
 {
-    [SerializeField] private float max_distance = 5f;
+    [SerializeField] private float maxDistance;
     public float Distance { get; private set; }
+
+    public float MaxDistance { 
+        get { return maxDistance; }
+        set {
+            maxDistance = value;
+            Distance = maxDistance;
+        } 
+    }  
 
     private void Start()
     {
-        Distance = max_distance;
+        Distance = maxDistance;
     }
 
     private void FixedUpdate()
     {
-        RaycastHit2D hit = Physics2D.Raycast(Position(), Forward() * max_distance);
+        RaycastHit2D hit = Physics2D.Raycast(Position(), Forward() * maxDistance);
         if (hit)
         {
             if (hit.transform.gameObject.tag != "wall" && hit.transform.gameObject.tag != "npc car")
                 return;
-            Distance = Mathf.Min(hit.distance, max_distance);
+            Distance = Mathf.Min(hit.distance, maxDistance);
             //if (Distance < max_distance)
                 //Debug.Log("Object close");
         } else
         {
-            Distance = max_distance;
+            Distance = maxDistance;
         }
     }
 

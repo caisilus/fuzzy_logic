@@ -25,6 +25,8 @@ public class ClickSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Time.timeScale == 0f)
+            return;
         if (Input.GetMouseButtonDown(0))
         {
             if (Input.GetKey(KeyCode.LeftShift))
