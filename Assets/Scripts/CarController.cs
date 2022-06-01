@@ -8,15 +8,17 @@ public class CarController : MonoBehaviour
     [SerializeField] bool handControl;
 
     // Sensors
-    [SerializeField] SensorScript rightSensor;
-    [SerializeField] SensorScript leftSensor;
-    [SerializeField] SensorScript backSensor;
+    [SerializeField] private SensorScript rightSensor;
+    [SerializeField] private SensorScript leftSensor;
+    [SerializeField] private SensorScript backSensor;
+    private FinishSensor _finishSensor;
 
     // For ending the game
     [SerializeField] GameController gameController;
 
-    public float maxSpeed;
-    public float maxAngle;
+    // User controlled parameters
+    [SerializeField] private float maxSpeed;
+    [SerializeField] float maxAngle;
 
     // Car parameters to determine by AI
     private float _moveSpeed;
@@ -35,6 +37,7 @@ public class CarController : MonoBehaviour
     // Unity methods
     void Start()
     {
+        _finishSensor = GetComponent<FinishSensor>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _movedirection = new Vector2(transform.up.x, transform.up.y);
         _moveSpeed = 2;
@@ -124,5 +127,25 @@ public class CarController : MonoBehaviour
         Debug.Log("Collision");
         gameController.GetComponent<GameController>().RestartLevel();
 
+    }
+
+    // User defined properties
+    public float MaxSpeed
+    {
+        get { return maxSpeed; }
+
+        set { maxSpeed = Math.Abs(value); }
+    }
+
+    public float MaxAngle
+    {
+        get { return maxAngle; }
+
+        set 
+        {
+            if (value < 0 || value > 180)
+                return;
+            maxAngle = value;
+        }
     }
 }
