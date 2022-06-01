@@ -123,15 +123,15 @@ public class AiHub
 
     //Ускорится быстро
     public static float f11(float x){
-
+        return 1;
     }
     //Ускорится средне
     public static float f12(float x){
-
+        return 1;
     }
     //Замедлиться
     public static float f13(float x){
-
+        return 1;
     }
 
     //Едем быстро
