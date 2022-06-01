@@ -19,6 +19,7 @@ public class CarController : MonoBehaviour
     // User controlled parameters
     [SerializeField] private float maxSpeed;
     [SerializeField] float maxAngle;
+    [SerializeField] float maxdv;
 
     // Car parameters to determine by AI
     private float _moveSpeed;
@@ -61,6 +62,7 @@ public class CarController : MonoBehaviour
         if (handControl)
         {
             ProcessInputs();
+            GetDetectorsData();
         }
         else{
             float[] input = GetDetectorsData();
@@ -69,6 +71,9 @@ public class CarController : MonoBehaviour
             if (Time.timeScale > 0)
                 Debug.Log($"Output V {outut[0]}; Output A {outut[1]}");
             float rotation = outut[1];
+            float new_dv = outut[0];
+            _dmoveSpeed = new_dv * maxdv;
+            _moveSpeed = Math.Min(_moveSpeed + _dmoveSpeed, maxSpeed);
             _angle = Math.Min(rotation * maxAngle, maxAngle);
         }
 
@@ -85,8 +90,8 @@ public class CarController : MonoBehaviour
 
         //TODO добавить растояние до цели
         float[] res = new float[]{speed, angle, rsData, lsData, bsData, disttofinish, angletofinish};
-        if (Time.timeScale > 0f)
-            Debug.Log($"Velocity {speed}; Angle: {angle}; RSensor: {rsData}; LSensor: {lsData}; BSensor: {bsData}, Dist: {disttofinish} Angle_toFin {angletofinish}");
+        //if (Time.timeScale > 0f)
+            ///Debug.Log($"Velocity {speed}; Angle: {angle}; RSensor: {rsData}; LSensor: {lsData}; BSensor: {bsData}, Dist: {disttofinish} Angle_toFin {angletofinish}");
         return res;
     }
 
