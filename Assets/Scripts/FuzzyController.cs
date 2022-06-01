@@ -23,7 +23,7 @@ public class FuzzyAI
             FuzzySet res_set = rules[i].implement(input);
             int rule_index = rules[i].outputindex;
             if (resultSets.ContainsKey(rule_index)){
-                resultSets[rule_index] = FuzzySet.min(resultSets[rule_index], res_set);
+                resultSets[rule_index] = FuzzySet.max(resultSets[rule_index], res_set);
             }else{
                 resultSets[rule_index] = res_set;
             }
