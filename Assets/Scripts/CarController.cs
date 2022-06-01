@@ -69,7 +69,6 @@ public class CarController : MonoBehaviour
             if (Time.timeScale > 0)
                 Debug.Log($"Output V {outut[0]}; Output A {outut[1]}");
             float rotation = outut[1];
-            
             _angle = Math.Min(rotation * maxAngle, maxAngle);
         }
 
@@ -79,12 +78,15 @@ public class CarController : MonoBehaviour
         float speed = _moveSpeed / maxSpeed;
         float angle = _angle / maxAngle;
         float rsData = rightSensor.Distance / rightSensor.MaxDistance;
-        float lsData = leftSensor.Distance / rightSensor.MaxDistance;
-        float bsData = backSensor.Distance / rightSensor.MaxDistance;
+        float lsData = leftSensor.Distance / leftSensor.MaxDistance;
+        float bsData = backSensor.Distance / backSensor.MaxDistance;
+        float disttofinish = _finishSensor.Distance;
+        float angletofinish = _finishSensor.Angle / 180.0f;
+
         //TODO добавить растояние до цели
-        float[] res = new float[]{speed, angle, rsData, lsData, bsData};
+        float[] res = new float[]{speed, angle, rsData, lsData, bsData, disttofinish, angletofinish};
         if (Time.timeScale > 0f)
-            Debug.Log($"Velocity {speed}; Aangle: {angle}; RSensor: {rsData}; LSensor: {lsData}; BSensor: {bsData}");
+            Debug.Log($"Velocity {speed}; Angle: {angle}; RSensor: {rsData}; LSensor: {lsData}; BSensor: {bsData}, Dist: {disttofinish} Angle_toFin {angletofinish}");
         return res;
     }
 
