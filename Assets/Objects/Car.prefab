@@ -260,8 +260,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handControl: 1
-  rightSensor: {fileID: 5567302704362780654}
-  leftSensor: {fileID: 5567302704475389056}
+  rightSensor: {fileID: 5567302704475389056}
+  leftSensor: {fileID: 5567302704362780654}
   backSensor: {fileID: 5567302704855561885}
   gameController: {fileID: 0}
   maxSpeed: 3

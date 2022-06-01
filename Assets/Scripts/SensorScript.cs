@@ -17,7 +17,7 @@ public class SensorScript : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(Position(), Forward() * max_distance);
         if (hit)
         {
-            if (hit.transform.gameObject.tag != "wall")
+            if (hit.transform.gameObject.tag != "wall" && hit.transform.gameObject.tag != "npc car")
                 return;
             Distance = Mathf.Min(hit.distance, max_distance);
             //if (Distance < max_distance)
