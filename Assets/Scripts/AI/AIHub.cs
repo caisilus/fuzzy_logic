@@ -135,7 +135,46 @@ public class AiHub
         }
     }
 
+    public static float turnRightSmallFunc(float x)
+    {
+        if (x > 0.0f)
+        {
+            return 0.0f;
+        }
+        else if (x > -0.2f)
+        {
+            return 1f;
+        }
+        else if (x > -0.4f)
+        {
+            return 5.0f * x + 2.0f;
+        }
+        else
+        {
+            return 0f;
+        }
+    }
 
+    //средне повернуть руль влево
+    public static float turnLeftSmallFunc(float x)
+    {
+        if (x < 0.0f)
+        {
+            return 0.0f;
+        }
+        else if (x < 0.2f)
+        {
+            return 1f;
+        }
+        else if (x < 0.4f)
+        {
+            return -5.0f * x + 2.0f;
+        }
+        else
+        {
+            return 0f;
+        }
+    }
 
     // Почти 0 угол
     public static float turnAroundZeroFunc(float x)
@@ -224,6 +263,44 @@ public class AiHub
         else
         {
             return 0f;
+        }
+    }
+
+    public static float deviationUltraSmallLeft(float x)
+    {
+        if (x < 0.0f)
+        {
+            return 0.0f;
+        }
+        else if (x <= 0.05f)
+        {
+            return 1.0f;
+        } else if (x < 0.1f)
+        {
+            return -20.0f * x + 2.0f;
+        } else
+        {
+            return 0.0f;
+        }
+    }
+
+    public static float deviationUltraSmallRight(float x)
+    {
+        if (x > 0.0f)
+        {
+            return 0.0f;
+        }
+        else if (x >= -0.05f)
+        {
+            return 1.0f;
+        }
+        else if (x > -0.1f)
+        {
+            return 20.0f * x + 2.0f;
+        }
+        else
+        {
+            return 0.0f;
         }
     }
 
@@ -361,19 +438,6 @@ public class AiHub
         }
     }
 
-    //Ускорится быстро
-    public static float f11(float x){
-        return 1;
-    }
-    //Ускорится средне
-    public static float f12(float x){
-        return 1;
-    }
-    //Замедлиться
-    public static float f13(float x){
-        return 1;
-    }
-
     //Едем быстро
     //Едем медленно
 
@@ -401,6 +465,10 @@ public class AiHub
         F fun18 = turnRightMiddleFunc;
         F fun19 = turnLeftMiddleFunc;
         F fun20 = turnAroundZeroFunc;
+        F ultraSmallL = deviationUltraSmallLeft;
+        F ultraSmallR = deviationUltraSmallRight;
+        F smallTurnL = turnLeftSmallFunc;
+        F smallTurnR = turnRightSmallFunc;
 
         // сенсоры
         FuzzySet closeLeft = new FuzzySet(0, 1, 100.0f, fun1);
@@ -424,12 +492,18 @@ public class AiHub
 
         FuzzySet turnAroundZero = new FuzzySet(-1, 1, 200.0f, fun20);
 
+        FuzzySet turnRightSmall = new FuzzySet(-1, 1, 200.0f, smallTurnR);
+        FuzzySet turnLeftSmall = new FuzzySet(-1, 1, 200.0f, smallTurnL);
+
         // инфа о цели
         FuzzySet deviationRight = new FuzzySet(-1, 1, 200f, fun4);
         FuzzySet deviationLeft = new FuzzySet(-1, 1, 200f, fun5);
 
         FuzzySet deviationRightSmall = new FuzzySet(-1, 1, 200f, fun16);
         FuzzySet deviationLeftSmall = new FuzzySet(-1, 1, 200f, fun17);
+
+        FuzzySet deviationRightUltraSmall = new FuzzySet(-1, 1, 200f, ultraSmallR);
+        FuzzySet deviationLeftUltraSmall = new FuzzySet(-1, 1, 200f, ultraSmallL);
 
         FuzzySet closetoDest = new FuzzySet(0, 10, 200f, fun6);
         FuzzySet fartoDest = new FuzzySet(0, 10, 200f, fun7);
@@ -533,13 +607,57 @@ public class AiHub
         FuzzyRule rule38 = new FuzzyRule(new FuzzySet[] { deviationLeftSmall, fartoDest, turnLeftMiddle },
             rideBackFast, 0, new int[] { 6, 5, 1 });
 
+
+        // SMALL TURNS RIGHT
+        FuzzyRule rule43 = new FuzzyRule(new FuzzySet[] { deviationLeftUltraSmall, fartoDest, farRight, turnRightFast },
+                                            turnRightSmall, 1, new int[] { 6, 5, 2, 1 });
+        FuzzyRule rule44 = new FuzzyRule(new FuzzySet[] { deviationLeftUltraSmall, fartoDest, farRight, turnRightMiddle },
+                                            turnRightSmall, 1, new int[] { 6, 5, 2, 1 });
+        FuzzyRule rule45 = new FuzzyRule(new FuzzySet[] { deviationLeftUltraSmall, fartoDest, farRight, turnAroundZero },
+                                            turnRightSmall, 1, new int[] { 6, 5, 2, 1 });
+
+        // Experiment
+        FuzzyRule rule46 = new FuzzyRule(new FuzzySet[] { deviationLeftUltraSmall, fartoDest, closeRight },
+            rideBackFast, 0, new int[] { 6, 5, 3 });
+        FuzzyRule rule47 = new FuzzyRule(new FuzzySet[] { deviationLeftUltraSmall, fartoDest, turnLeftFast },
+            rideBackFast, 0, new int[] { 6, 5, 1 });
+        FuzzyRule rule48 = new FuzzyRule(new FuzzySet[] { deviationLeftUltraSmall, fartoDest, turnLeftMiddle },
+            rideBackFast, 0, new int[] { 6, 5, 1 });
+
+        //SMALL TURNS LEFT
+        FuzzyRule rule49 = new FuzzyRule(new FuzzySet[] { deviationRightUltraSmall, fartoDest, farLeft, turnLeftFast }, 
+                                        turnLeftSmall, 1, new int[] { 6, 5, 3, 1 });
+        FuzzyRule rule50 = new FuzzyRule(new FuzzySet[] { deviationRightUltraSmall, fartoDest, farLeft, turnLeftMiddle },
+                                            turnLeftSmall, 1, new int[] { 6, 5, 3, 1 });
+        FuzzyRule rule51 = new FuzzyRule(new FuzzySet[] { deviationRightUltraSmall, fartoDest, farLeft, turnAroundZero },
+                                            turnLeftSmall, 1, new int[] { 6, 5, 3, 1 });
+
+        // Experiment
+        FuzzyRule rule52 = new FuzzyRule(new FuzzySet[] { deviationRightUltraSmall, fartoDest, closeLeft },
+            rideBackFast, 0, new int[] { 6, 5, 3 });
+        FuzzyRule rule53 = new FuzzyRule(new FuzzySet[] { deviationRightUltraSmall, fartoDest, turnRightFast },
+            rideBackFast, 0, new int[] { 6, 5, 1 });
+        FuzzyRule rule54 = new FuzzyRule(new FuzzySet[] { deviationRightUltraSmall, fartoDest, turnRightMiddle },
+            rideBackFast, 0, new int[] { 6, 5, 1 });
+
+
         // -------------------------------------- ПОВОРОТ ДЛЯ ЗАДНЕГО ХОДА ---------------------------------
-        //Если близко к цели и смотрим на цель то повернуть направо
-        FuzzyRule rule5 = new FuzzyRule(new FuzzySet[]{closetoDest, turnForward}, turnRightFast, 1, new int[]{5, 6});
+        //Если близко к цели и смотрим и последний поворот не налево на цель то повернуть направо
+        FuzzyRule rule5 = new FuzzyRule(new FuzzySet[]{closetoDest, turnForward, farRight}, 
+                                        turnRightFast, 1, new int[]{5, 6, 2});
+
+        FuzzyRule rule41 = new FuzzyRule(new FuzzySet[] { closetoDest, turnForward, farRight, turnRightMiddle },
+                                        turnRightFast, 1, new int[] { 5, 6, 2, 1 });
+
+        FuzzyRule rule42 = new FuzzyRule(new FuzzySet[] { closetoDest, turnForward, farRight, turnRightFast },
+                                        turnRightFast, 1, new int[] { 5, 6, 2, 1 });
 
         //Если близко к цели и смотрим на цель и едем быстро то замедлить средне
         FuzzyRule rule6 = new FuzzyRule(new FuzzySet[]{closetoDest, turnForward, rideForwardFast}, 
-                                            rideBackMiddle, 0, new int[]{5, 6, 0});
+                                            rideBackFast, 0, new int[]{5, 6, 0});
+
+        FuzzyRule rule40 = new FuzzyRule(new FuzzySet[]{closetoDest, turnForward, closeRight}, rideBackFast, 0, new int[] {5, 6, 2});
+
         //Если близко к цели и развёрнуты к ней задом то ехать назад
         FuzzyRule rule7 = new FuzzyRule(new FuzzySet[]{closetoDest, turnBack}, rideBackFast, 0, new int[]{5, 6});
 
@@ -555,12 +673,14 @@ public class AiHub
                                         rideForwardFast, 0, new int[] { 2, 3, 5 });
 
         // ------------------------------------- ЕДЕМ ЗАДНИМ ХОДОМ -----------------------------------------
+        FuzzyRule back1 = new FuzzyRule(new FuzzySet[] { closeBack, rideBackFast }, rideForwardFast, 0, new int[] { 4, 0 });
 
         FuzzyAI ai0 = new FuzzyAI(new FuzzyRule[]{rule1, rule2, rule3, rule4, rule5, rule6, rule7, rule8,
                                                   rule9, rule10, rule11, rule12, rule13, rule14, rule15, rule16,
                                                   rule17, rule18, rule19, rule20, rule21, rule22, rule23, rule24, 
                                                   rule25, rule26, rule27, rule28, rule29, rule30, rule31, rule32,
-                                                  rule33, rule34, rule35, rule36, rule37, rule38, rule39}, 2);
+                                                  rule33, rule34, rule35, rule36, rule37, rule38, rule39, rule40, 
+                                                  back1 }, 2);
         currentAI = ai0;
     }
 

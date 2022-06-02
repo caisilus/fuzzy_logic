@@ -69,6 +69,12 @@ public class CarController : MonoBehaviour
         else {
             float[] input = GetDetectorsData();
             float[] outut = ai.step(input);
+            if (outut[0] == 0 && outut[1] == 0)
+            {
+                Debug.Log("zero output");
+                outut[0] = -0.1f;
+                outut[1] = 0;
+            }
 
             if (Time.timeScale > 0)
                 Debug.Log($"Output V {outut[0]}; Output A {outut[1]}");
