@@ -41,9 +41,11 @@ public class CarController : MonoBehaviour
         _finishSensor = GetComponent<FinishSensor>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _movedirection = new Vector2(transform.up.x, transform.up.y);
-        _moveSpeed = 2;
+        _moveSpeed = 0.0f;
         _angle = 0f;
-        _dmoveSpeed = 0.2f;
+        //_dmoveSpeed = 0.3f;
+        maxdv = maxSpeed / 8.0f;
+        _dmoveSpeed = maxdv;
 
         AiHub aihub = new AiHub();
         ai = aihub.getAI();
@@ -113,7 +115,8 @@ public class CarController : MonoBehaviour
     }
 
     private void Move() {
-        _rigidbody.velocity = new Vector2(_movedirection.x * _moveSpeed, _movedirection.y * _moveSpeed);
+        //_rigidbody.velocity = new Vector2(_movedirection.x * _moveSpeed, _movedirection.y * _moveSpeed);
+        _rigidbody.velocity = _movedirection * _moveSpeed;
     }
 
     private Vector2 RotateVector2(Vector2 v, float degrees)
@@ -155,7 +158,11 @@ public class CarController : MonoBehaviour
     {
         get { return maxSpeed; }
 
-        set { maxSpeed = Math.Abs(value); }
+        set {
+            Debug.Log("Setter!");
+            maxSpeed = Math.Abs(value);
+            maxdv = maxSpeed / 8.0f;
+        }
     }
 
     public float MaxAngle

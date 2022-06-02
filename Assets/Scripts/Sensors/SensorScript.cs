@@ -25,8 +25,21 @@ public class SensorScript : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(Position(), Forward() * maxDistance);
         if (hit)
         {
-            if (hit.transform.gameObject.tag != "wall" && hit.transform.gameObject.tag != "npc car")
+            var obj = hit.transform.gameObject;
+            if (obj.tag != "wall" && obj.tag != "optional wall"
+                    && obj.tag != "npc car")
+            {
                 return;
+            }
+            if (obj.tag == "optional wall")
+            {
+                HiderScript opt = obj.GetComponent<HiderScript>();
+                if (opt == null || !opt.collisions_enabled)
+                {
+                    return;
+                }
+            }
+            
             Distance = Mathf.Min(hit.distance, maxDistance);
             //if (Distance < max_distance)
                 //Debug.Log("Object close");
